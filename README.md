@@ -11,7 +11,7 @@ This plugin uses [Parsedown Extra](http://parsedown.org) to render Markdown, wit
 This plugin is not available in the repository, [Composer](https://getcomposer.org) is the recommended way to install it:
 
 ```bash
-$ composer require goblindegook/wp-markdown
+$ composer require goblindegook/wp-markdown-g
 ```
 
 If you want to know more about using Composer with WordPress, there's [a good introduction at the Roots project site](https://roots.io/using-composer-with-wordpress/).
