@@ -97,7 +97,7 @@ class Plugin {
 
 		// Rebalance tags on display rather than when saving:
 		\remove_filter( 'content_save_pre', 'balanceTags', 50 );
-		\add_filter( 'the_content',     'balanceTags', 50 );
+		\add_filter( 'the_content', 'balanceTags', 50 );
 
 		// Reschedule 'autoembed' to embed content before parsing Markdown:
 		\remove_filter( 'the_content', array( $wp_embed, 'autoembed' ), 8 );
@@ -112,9 +112,6 @@ class Plugin {
 	 * Add and adjust excerpt parsing hooks.
 	 */
 	private function define_excerpt_hooks() {
-		// Stop WordPress from automatically adding paragraphs to excerpts:
-		\remove_filter( 'the_excerpt', 'wpautop' );
-
 		// Rebalance tags on display rather than when saving:
 		\remove_filter( 'excerpt_save_pre', 'balanceTags', 50 );
 		\add_filter( 'get_the_excerpt', 'balanceTags', 9 );
@@ -122,8 +119,8 @@ class Plugin {
 		// Convert excerpts from Markdown:
 		\add_filter( 'get_the_excerpt', array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_the_excerpt', 'trim', 7 );
-		\add_filter( 'the_excerpt',     array( $this->converter, 'add_p' ) );
-		\add_filter( 'the_excerpt_rss', array( $this->converter, 'strip_p' ) );
+		\add_filter( 'the_excerpt',     'wpautop' );
+		\add_filter( 'the_excerpt_rss', 'wp_strip_all_tags' );
 	}
 
 	/**
@@ -138,7 +135,7 @@ class Plugin {
 		\add_filter( 'comment_text',        array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_text',    array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', array( $this->converter, 'convert' ), 6 );
-		\add_filter( 'get_comment_excerpt', array( $this->converter, 'strip_p' ), 7 );		
+		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );		
 	}
 
 }

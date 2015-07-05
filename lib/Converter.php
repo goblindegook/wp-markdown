@@ -14,19 +14,19 @@ class Converter {
 	private $plugin;
 
 	/**
-	 * Markdown converter instance.
+	 * Markdown parser instance.
 	 * @var \Parsedown
 	 */
-	private $converter;
+	private $parser;
 
 	/**
 	 * Converter constructor.
-	 * @param Plugin     $plugin    Plugin instance.
-	 * @param \Parsedown $converter Markdown converter instance.
+	 * @param Plugin     $plugin Plugin instance.
+	 * @param \Parsedown $parser Markdown parser instance.
 	 */
-	public function __construct( Plugin $plugin, \Parsedown $converter ) {
-		$this->plugin    = $plugin;
-		$this->converter = $converter;
+	public function __construct( Plugin $plugin, \Parsedown $parser ) {
+		$this->plugin = $plugin;
+		$this->parser = $parser;
 	}
 
     /**
@@ -37,36 +37,7 @@ class Converter {
      * @return string       Converted HTML.
      */
     public function convert( $text ) {
-        return $this->converter->text($text);
-    }
-
-    /**
-     * Wraps a string in paragraph tags.
-     *
-     * @param  string $text String to wrap.
-     * 
-     * @return string       Paragraph-wrapped string.
-     */
-    public function add_p( $text ) {
-        if ( preg_match( '{^$|^<(p|ul|ol|dl|pre|blockquote|div)>}i', $text ) ) {
-        	return $text;
-        }
-
-        $text = '<p>' . $text . '</p>';
-        $text = preg_replace( '{\n{2,}}', "</p>\n\n<p>", $text );
-
-        return $text;
-    }
-
-    /**
-     * Remove paragraph tags.
-     *
-     * @param  string $text String with paragraph tags.
-     * 
-     * @return string       Gone! Magic!
-     */
-    public function strip_p( $text ) {
-        return preg_replace( '{</?p>}i', '', $text );
+        return $this->parser->text($text);
     }
 
 }
