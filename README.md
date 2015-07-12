@@ -15,3 +15,43 @@ $ composer require goblindegook/wp-markdown-g
 ```
 
 If you want to know more about using Composer with WordPress, there's [a good introduction at the Roots project site](https://roots.io/using-composer-with-wordpress/).
+
+## Syntax Highlighting
+
+The plugin is bundled with Prism.js to highlight code in the following languages:
+
+* Bash
+* C/C++
+* CoffeeScript
+* CSS
+* Git
+* Handlebars
+* HTML
+* HTTP
+* INI
+* Java
+* JavaScript (and JSX)
+* LESS
+* Makefile
+* Markdown
+* Objective-C
+* Perl
+* PHP
+* Python
+* Ruby
+* Scala
+* SCSS
+* SQL
+* Swift
+* Twig
+* TypeScript
+* YAML
+
+### Overriding the colour scheme
+
+The plugin uses Paul Livingstone's [Okaidia](http://prismjs.com/index.html?theme=prism-okaidia) theme by default.  If you need to override Okaidia on your theme (or in some other plugin), I recommend you dequeue ours first:
+
+```php
+wp_dequeue_style( 'wp-markdown-prism' );
+```
+
