@@ -88,8 +88,6 @@ class Plugin {
 	 * @global $wp_embed WP Embed instance.
 	 */
 	private function define_content_hooks() {
-		global $wp_embed;
-
 		// Stop WordPress from automatically adding paragraphs:
 		\remove_filter( 'the_content',     'wpautop' );
 		\remove_filter( 'the_content_rss', 'wpautop' );
@@ -99,13 +97,13 @@ class Plugin {
 		\remove_filter( 'content_save_pre', 'balanceTags', 50 );
 		\add_filter( 'the_content', 'balanceTags', 50 );
 
-		// Reschedule 'autoembed' to embed content before parsing Markdown:
-		\remove_filter( 'the_content', array( $wp_embed, 'autoembed' ), 8 );
-		\add_filter( 'the_content', array( $wp_embed, 'autoembed' ), 5 );
+		// Run shortcodes before parsing Markdown:
+		\remove_filter( 'the_content', 'do_shortcode', 11 );
+		\add_filter( 'the_content', 'do_shortcode', 8 );
 
 		// Convert content from Markdown:
-		\add_filter( 'the_content',     array( $this->converter, 'convert' ), 6 );
-		\add_filter( 'the_content_rss', array( $this->converter, 'convert' ), 6 );
+		\add_filter( 'the_content',     array( $this->converter, 'convert' ), 9 );
+		\add_filter( 'the_content_rss', array( $this->converter, 'convert' ), 9 );
 	}
 
 	/**
