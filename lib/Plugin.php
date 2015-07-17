@@ -40,6 +40,7 @@ class Plugin {
 		\add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 		\add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
+		$this->define_rewrite_rules();
 		$this->define_content_hooks();
 		$this->define_excerpt_hooks();
 		$this->define_comment_hooks();
@@ -134,6 +135,44 @@ class Plugin {
 		\add_filter( 'get_comment_text',    array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );		
+	}
+
+	/**
+	 * Setup rewrite rules.
+	 */
+	private function define_rewrite_rules() {
+		\add_filter( 'query_vars', function( $vars ) {
+			$vars[] = 'export';
+			return $vars;
+		});
+
+		\add_action( 'init', array( $this, 'text_url_permalink' ) );		
+		\add_action( 'template_redirect', array( $this, 'text_url_response' ) );
+	}
+
+	/**
+	 * Setup rewrite rules for the `.text` slug extension.
+	 *
+	 * Allows fetching the raw Markdown used on the page.
+	 */
+	public function text_url_permalink() {
+		\add_rewrite_rule( '([^/]+)\.text/$', 'index.php?name=$matches[1]&export=markdown', 'top' );
+	}
+
+	/**
+	 * Handle text URL response.
+	 */
+	public function text_url_response() {
+		global $post;
+
+		if ( \is_singular() && \get_query_var( 'export' ) === 'markdown'
+			&& $post->post_status === 'publish' && $post->post_password === '' ) {
+
+			header( 'Content-Type: text/markdown; charset=' . \get_bloginfo( 'charset' ) );
+			// TODO: Metadata
+			echo $post->post_content;
+			exit;
+		}
 	}
 
 }
