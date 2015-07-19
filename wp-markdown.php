@@ -11,6 +11,7 @@ License:     GPLv2
 
 namespace goblindegook\WP\Markdown;
 
+
 if ( ! defined( 'WPINC' ) ) {
     die;
 }
@@ -20,6 +21,6 @@ if ( file_exists( __DIR__ . '/vendor/autoload.php' ) ) {
 }
 
 \add_action( 'plugins_loaded', function () {
-	$plugin = new Plugin( 'wp-markdown', '1.0.0' );
+	$plugin = new Plugin( 'wp-markdown', '1.0.2' );
 	$plugin->run();
 } );
