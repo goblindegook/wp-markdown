@@ -146,7 +146,7 @@ class Plugin {
 			return $vars;
 		});
 
-		\add_action( 'init', array( $this, 'text_url_permalink' ) );		
+		\add_action( 'init', array( $this, 'text_url_permalink' ), 99 );
 		\add_action( 'template_redirect', array( $this, 'text_url_response' ) );
 	}
 
@@ -156,7 +156,7 @@ class Plugin {
 	 * Allows fetching the raw Markdown used on the page.
 	 */
 	public function text_url_permalink() {
-		\add_rewrite_rule( '([^/]+)\.text/$', 'index.php?name=$matches[1]&export=markdown', 'top' );
+		\add_rewrite_rule( '.+?([^/]+?)\.text/?$', 'index.php?export=markdown&name=$matches[1]', 'top' );
 	}
 
 	/**
