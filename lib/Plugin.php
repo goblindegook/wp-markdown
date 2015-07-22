@@ -105,6 +105,7 @@ class Plugin {
 		// Convert content from Markdown:
 		\add_filter( 'the_content',     array( $this->converter, 'convert' ), 9 );
 		\add_filter( 'the_content_rss', array( $this->converter, 'convert' ), 9 );
+		\add_filter( 'the_content_rss', 'wp_strip_all_tags' );
 	}
 
 	/**
