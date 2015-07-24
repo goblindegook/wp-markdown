@@ -44,6 +44,7 @@ class Plugin {
 		$this->define_content_hooks();
 		$this->define_excerpt_hooks();
 		$this->define_comment_hooks();
+		$this->define_widget_hooks();
 	}
 
 	/**
@@ -136,6 +137,13 @@ class Plugin {
 		\add_filter( 'get_comment_text',    array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );		
+	}
+
+	/**
+	 * Parse Markdown content in widgets.
+	 */
+	private function define_widget_hooks() {
+		\add_filter( 'widget_text', array( $this->converter, 'convert' ) );
 	}
 
 	/**
