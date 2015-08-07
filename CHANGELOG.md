@@ -1,5 +1,11 @@
 # Change Log
 
+## [unreleased]
+
+* Exports Markdown document metadata.
+* New `markdown_metadata` filter.
+* Fixed rewrite rules for the `.text` pseudo-extension on pages and subpages.
+
 ## [1.0.3]
 
 * Fixed rewrite rules for the `.text` pseudo-extension.
