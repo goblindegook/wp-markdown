@@ -210,11 +210,14 @@ class Plugin {
 			 */
 			$metadata = \apply_filters( 'markdown_metadata', $metadata, $post );
 
+			$header = '';
+
 			foreach ( $metadata as $key => $value ) {
-				echo "$key: $value  \n";
+				$header .= "$key: $value  \n";
 			}
 
 			if ( count( $metadata ) ) {
+				echo \goblindegook\delimiter_align( $header, ':' );
 				echo "\n";
 			}
 
