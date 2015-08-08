@@ -1,6 +1,6 @@
 # Change Log
 
-## [unreleased]
+## [1.1.0]
 
 * Exports Markdown document metadata.
 * New `markdown_metadata` filter.
@@ -28,8 +28,9 @@
 * Markdown rendering using Parsedown.
 * Syntax highlighting using Prism.js.
 
-[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.4...HEAD
-[1.0.3]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.3...1.0.4
+[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.0...HEAD
+[1.1.0]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.4...1.1.0
+[1.0.4]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.2...1.0.3
 [1.0.2]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.1...1.0.2
 [1.0.1]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.0...1.0.1

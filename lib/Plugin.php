@@ -23,6 +23,12 @@ class Plugin {
 	private $converter;
 
 	/**
+	 * Exporter instance.
+	 * @var Exporter
+	 */
+	private $exporter;
+
+	/**
 	 * Plugin constructor.
 	 * @param string $name    Plugin name.
 	 * @param string $version Plugin version.
@@ -31,6 +37,7 @@ class Plugin {
 		$this->name      = $name;
 		$this->version   = $version;
 		$this->converter = new Converter( $this, new \ParsedownExtra() );
+		$this->exporter  = new Exporter( $this );
 	}
 
 	/**
@@ -40,11 +47,11 @@ class Plugin {
 		\add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 		\add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
-		$this->define_rewrite_rules();
-		$this->define_content_hooks();
-		$this->define_excerpt_hooks();
-		$this->define_comment_hooks();
-		$this->define_widget_hooks();
+		$this->setup_content_hooks();
+		$this->setup_excerpt_hooks();
+		$this->setup_comment_hooks();
+		$this->setup_widget_hooks();
+		$this->setup_exporter();
 	}
 
 	/**
@@ -89,7 +96,7 @@ class Plugin {
 	 *
 	 * @global $wp_embed WP Embed instance.
 	 */
-	private function define_content_hooks() {
+	private function setup_content_hooks() {
 		// Stop WordPress from automatically adding paragraphs:
 		\remove_filter( 'the_content',     'wpautop' );
 		\remove_filter( 'the_content_rss', 'wpautop' );
@@ -112,7 +119,7 @@ class Plugin {
 	/**
 	 * Add and adjust excerpt parsing hooks.
 	 */
-	private function define_excerpt_hooks() {
+	private function setup_excerpt_hooks() {
 		// Rebalance tags on display rather than when saving:
 		\remove_filter( 'excerpt_save_pre', 'balanceTags', 50 );
 		\add_filter( 'get_the_excerpt', 'balanceTags', 9 );
@@ -127,7 +134,7 @@ class Plugin {
 	/**
 	 * Add and adjust comment parsing hooks.
 	 */
-	private function define_comment_hooks() {
+	private function setup_comment_hooks() {
 		// Stop WordPress from automatically adding paragraphs to comments:
 		\remove_filter( 'comment_text', 'wpautop' );
 		\remove_filter( 'comment_text', 'make_clickable' );
@@ -142,88 +149,18 @@ class Plugin {
 	/**
 	 * Parse Markdown content in widgets.
 	 */
-	private function define_widget_hooks() {
+	private function setup_widget_hooks() {
 		\add_filter( 'widget_text', array( $this->converter, 'convert' ) );
 	}
 
 	/**
-	 * Setup rewrite rules.
+	 * Setup exporter.
 	 */
-	private function define_rewrite_rules() {
-		\add_filter( 'query_vars', function( $vars ) {
-			$vars[] = 'export';
-			return $vars;
-		});
-
-		\add_filter( 'post_rewrite_rules', array( $this, 'rewrite_rules' ) );
-		\add_filter( 'page_rewrite_rules', array( $this, 'rewrite_rules' ) );
-
-		\add_action( 'template_redirect', array( $this, 'text_url_response' ) );
-	}
-
-	/**
-	 * Setup rewrite rules for the `.text` slug extension.
-	 *
-	 * Allows fetching the raw Markdown used on the page.
-	 */
-	public function rewrite_rules( $rewrite ) {
-
-		$md_rewrite = array();
-
-		foreach ( $rewrite as $pattern => $redirect ) {
-			if ( preg_match( '/name=/', $redirect ) && preg_match( '/page=/', $redirect ) ) {
-				// Repurpose the paged rewrite rules:
-				$md_pattern  = str_replace( '(/[0-9]+)?/?$', '\.text/?$', $pattern );
-				$md_redirect = preg_replace( '/([&?])page=[^\&]*/', '$1export=markdown', $redirect, 1 );
-
-				$md_rewrite[ $md_pattern ] = $md_redirect;
-			}
-		}
-
-		return array_merge( $md_rewrite, $rewrite );
-	}
-
-	/**
-	 * Handle text URL response.
-	 */
-	public function text_url_response() {
-		global $post;
-
-		if ( \is_singular() && \get_query_var( 'export' ) === 'markdown'
-			&& $post->post_status === 'publish' && $post->post_password === '' ) {
-
-			header( 'Content-Type: text/markdown; charset=' . \get_bloginfo( 'charset' ) );
-			
-			$metadata = array(
-				'Title'  => \get_the_title(),
-				'Author' => \get_the_author_meta( 'display_name', $post->post_author ),
-				'Date'   => \get_the_date(),
-				'URL'    => \get_the_permalink(),
-			);
-
-			/**
-			 * Lets developers change the Markdown meta headers returned with
-			 * the document.
-			 * 
-			 * @param array    $metadata Markdown document meta headers.
-			 * @param \WP_Post $post Exported post.
-			 */
-			$metadata = \apply_filters( 'markdown_metadata', $metadata, $post );
-
-			$header = '';
-
-			foreach ( $metadata as $key => $value ) {
-				$header .= "$key: $value  \n";
-			}
-
-			if ( count( $metadata ) ) {
-				echo \goblindegook\delimiter_align( $header, ':' );
-				echo "\n";
-			}
-
-			echo $post->post_content;
-			exit;
-		}
+	private function setup_exporter() {
+		\add_filter( 'query_vars', array( $this->exporter, 'filter_query_vars' ) );
+		\add_filter( 'post_rewrite_rules', array( $this->exporter, 'filter_rewrite_rules' ) );
+		\add_filter( 'page_rewrite_rules', array( $this->exporter, 'filter_rewrite_rules' ) );
+		\add_action( 'template_redirect', array( $this->exporter, 'text' ) );
 	}
 
 }
