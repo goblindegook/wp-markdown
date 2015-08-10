@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "a294e42da7d90c16092e6921c9012d2f",
+    "hash": "d4f97d9ab0dc8df2f8664318d1592e7d",
     "packages": [
         {
             "name": "composer/installers",
@@ -186,16 +186,16 @@
         },
         {
             "name": "goblindegook/delimiter-align",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/goblindegook/delimiter-align.git",
-                "reference": "2097efbfb19271174749fd98eb112a3625d7ad13"
+                "reference": "3ede5d2989fe367f1363187fe4b64c57b3695cf0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/goblindegook/delimiter-align/zipball/2097efbfb19271174749fd98eb112a3625d7ad13",
-                "reference": "2097efbfb19271174749fd98eb112a3625d7ad13",
+                "url": "https://api.github.com/repos/goblindegook/delimiter-align/zipball/3ede5d2989fe367f1363187fe4b64c57b3695cf0",
+                "reference": "3ede5d2989fe367f1363187fe4b64c57b3695cf0",
                 "shasum": ""
             },
             "require-dev": {
@@ -208,7 +208,7 @@
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
-            "time": "2015-08-08 02:25:07"
+            "time": "2015-08-09 17:27:49"
         }
     ],
     "packages-dev": [
