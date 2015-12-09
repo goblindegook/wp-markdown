@@ -41,7 +41,9 @@ class Exporter {
 		foreach ( $rewrite as $pattern => $redirect ) {
 			if ( preg_match( '/name=/', $redirect ) && preg_match( '/page=/', $redirect ) ) {
 				// Repurpose the paged rewrite rules:
-				$md_pattern  = str_replace( '(/[0-9]+)?/?$', '\.text/?$', $pattern );
+				
+				$md_pattern  = str_replace( '(?:/([0-9]+))?/?$', '\.text/?$', $pattern );
+				$md_pattern  = str_replace( '(/[0-9]+)?/?$', '\.text/?$', $md_pattern );
 				$md_redirect = preg_replace( '/([&?])page=[^\&]*/', '$1export=markdown', $redirect, 1 );
 
 				$md_rewrite[ $md_pattern ] = $md_redirect;
