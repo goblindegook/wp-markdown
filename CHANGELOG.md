@@ -1,5 +1,13 @@
 # Change Log
 
+## [1.1.2]
+
+* Fixes handling of quote entities when combined with `wptexturize()`.
+
+## [1.1.1]
+
+* WordPress 4.4 compatibility fixes.
+
 ## [1.1.0]
 
 * Exports Markdown document metadata.
@@ -28,7 +36,9 @@
 * Markdown rendering using Parsedown.
 * Syntax highlighting using Prism.js.
 
-[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.0...HEAD
+[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.2...HEAD
+[1.1.2]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.1...1.1.2
+[1.1.1]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.4...1.1.0
 [1.0.4]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.3...1.0.4
 [1.0.3]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.2...1.0.3

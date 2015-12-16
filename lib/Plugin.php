@@ -97,22 +97,23 @@ class Plugin {
 	 * @global $wp_embed WP Embed instance.
 	 */
 	private function setup_content_hooks() {
+
 		// Stop WordPress from automatically adding paragraphs:
 		\remove_filter( 'the_content',     'wpautop' );
 		\remove_filter( 'the_content_rss', 'wpautop' );
-		\remove_filter( 'the_excerpt',     'wpautop' );
 
 		// Rebalance tags on display rather than when saving:
 		\remove_filter( 'content_save_pre', 'balanceTags', 50 );
 		\add_filter( 'the_content', 'balanceTags', 50 );
 
-		// Run shortcodes before parsing Markdown:
-		\remove_filter( 'the_content', 'do_shortcode', 11 );
-		\add_filter( 'the_content', 'do_shortcode', 8 );
+		// Reschedule texturization:
+		\remove_filter( 'the_content', 'wptexturize', 10 );
+		\add_filter( 'the_content', 'wptexturize', 20 );
 
 		// Convert content from Markdown:
-		\add_filter( 'the_content',     array( $this->converter, 'convert' ), 9 );
-		\add_filter( 'the_content_rss', array( $this->converter, 'convert' ), 9 );
+		\add_filter( 'the_content',     array( $this->converter, 'convert' ) );
+		\add_filter( 'the_content',     array( $this->converter, 'unquote' ) );
+		\add_filter( 'the_content_rss', array( $this->converter, 'convert' ) );
 		\add_filter( 'the_content_rss', 'wp_strip_all_tags' );
 	}
 
@@ -120,12 +121,16 @@ class Plugin {
 	 * Add and adjust excerpt parsing hooks.
 	 */
 	private function setup_excerpt_hooks() {
+		// Stop WordPress from automatically adding paragraphs:
+		\remove_filter( 'the_excerpt', 'wpautop' );
+
 		// Rebalance tags on display rather than when saving:
 		\remove_filter( 'excerpt_save_pre', 'balanceTags', 50 );
 		\add_filter( 'get_the_excerpt', 'balanceTags', 9 );
 
 		// Convert excerpts from Markdown:
 		\add_filter( 'get_the_excerpt', array( $this->converter, 'convert' ), 6 );
+		\add_filter( 'get_the_excerpt', array( $this->converter, 'unquote' ), 6 );
 		\add_filter( 'get_the_excerpt', 'trim', 7 );
 		\add_filter( 'the_excerpt',     'wpautop' );
 		\add_filter( 'the_excerpt_rss', 'wp_strip_all_tags' );
@@ -141,6 +146,7 @@ class Plugin {
 
 		// Convert comments from Markdown:
 		\add_filter( 'comment_text',        array( $this->converter, 'convert' ), 6 );
+		\add_filter( 'comment_text',        array( $this->converter, 'unquote' ), 6 );
 		\add_filter( 'get_comment_text',    array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );		

@@ -40,4 +40,16 @@ class Converter {
         return $this->parser->text($text);
     }
 
+	/**
+	 * Remove HTML quote entities, allowing wptexturize() to replace them with
+	 * curly quotes.
+	 * 
+	 * @param  string $text HTML with &quot; entities.
+	 * 
+	 * @return string       HTML without &quot; entities.
+	 */
+	public function unquote( $text ) {
+		return str_replace( '&quot;', '"', $text );
+	}
+
 }
