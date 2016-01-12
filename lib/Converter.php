@@ -37,7 +37,15 @@ class Converter {
      * @return string       Converted HTML.
      */
     public function convert( $text ) {
-        return $this->parser->text($text);
+        $key  = hash( 'sha256', $text );
+        $html = \wp_cache_get( $key, 'wp-markdown' );
+
+        if ( $html === false ) {
+            $html = $this->parser->text( $text );
+            \wp_cache_set( $key, $html, 'wp-markdown', 24 * 60 * 60 );
+        }
+
+        return $html;
     }
 
 	/**

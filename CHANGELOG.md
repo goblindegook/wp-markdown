@@ -1,5 +1,9 @@
 # Change Log
 
+## [1.2.0]
+
+* Caches converted HTML.
+
 ## [1.1.2]
 
 * Fixes handling of quote entities when combined with `wptexturize()`.
@@ -36,7 +40,8 @@
 * Markdown rendering using Parsedown.
 * Syntax highlighting using Prism.js.
 
-[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.2...HEAD
+[unreleased]: https://github.com/goblindegook/wp-markdown-g/compare/1.2.0...HEAD
+[1.2.0]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.2...1.2.0
 [1.1.2]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.1...1.1.2
 [1.1.1]: https://github.com/goblindegook/wp-markdown-g/compare/1.1.0...1.1.1
 [1.1.0]: https://github.com/goblindegook/wp-markdown-g/compare/1.0.4...1.1.0
