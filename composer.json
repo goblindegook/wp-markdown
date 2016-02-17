@@ -8,7 +8,7 @@
         }
     ],
     "type": "wordpress-plugin",
-    "keywords": ["wordpress", "plugin", "markdown", "prism", "parsedown", "syntax", "formatting"],
+    "keywords": ["wordpress", "plugin", "markdown", "prism", "syntax", "formatting"],
     "homepage": "https://github.com/goblindegook/wp-markdown",
     "license": "GPL-2.0+",
     "autoload": {
@@ -19,8 +19,8 @@
     "require": {
         "php": ">=5.3.0",
         "composer/installers": "~1.0",
-        "erusev/parsedown-extra": "0.7.*",
-        "goblindegook/delimiter-align": "0.2.*"
+        "goblindegook/delimiter-align": "0.2.*",
+        "michelf/php-markdown": "^1.6"
     },
     "require-dev": {
       "wp-coding-standards/wpcs": "dev-master"

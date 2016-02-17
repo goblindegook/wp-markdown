@@ -15,16 +15,16 @@ class Converter {
 
 	/**
 	 * Markdown parser instance.
-	 * @var \Parsedown
+	 * @var object
 	 */
 	private $parser;
 
 	/**
 	 * Converter constructor.
-	 * @param Plugin     $plugin Plugin instance.
-	 * @param \Parsedown $parser Markdown parser instance.
+	 * @param Plugin $plugin Plugin instance.
+	 * @param object $parser Markdown parser instance.
 	 */
-	public function __construct( Plugin $plugin, \Parsedown $parser ) {
+	public function __construct( Plugin $plugin, $parser ) {
 		$this->plugin = $plugin;
 		$this->parser = $parser;
 	}
@@ -41,7 +41,7 @@ class Converter {
         $html = \wp_cache_get( $key, 'wp-markdown' );
 
         if ( $html === false ) {
-            $html = $this->parser->text( $text );
+            $html = $this->parser->transform( $text );
             \wp_cache_set( $key, $html, 'wp-markdown', 24 * 60 * 60 );
         }
 

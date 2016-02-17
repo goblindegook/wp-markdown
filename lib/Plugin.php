@@ -36,7 +36,7 @@ class Plugin {
 	public function __construct( $name, $version ) {
 		$this->name      = $name;
 		$this->version   = $version;
-		$this->converter = new Converter( $this, new \ParsedownExtra() );
+		$this->converter = new Converter( $this, new \Michelf\MarkdownExtra() );
 		$this->exporter  = new Exporter( $this );
 	}
 
