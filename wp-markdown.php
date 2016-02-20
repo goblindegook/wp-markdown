@@ -3,7 +3,7 @@
 Plugin Name: Markdown
 Plugin URI:  https://github.com/goblindegook/wp-markdown-g
 Description: Markdown formatting support.
-Version:     1.1.2
+Version:     1.3.1
 Author:      Luís Rodrigues
 Author URI:  http://goblindegook.net/
 License:     GPLv2

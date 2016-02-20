@@ -34,9 +34,12 @@ class Plugin {
 	 * @param string $version Plugin version.
 	 */
 	public function __construct( $name, $version ) {
+		$parser = new \Michelf\MarkdownExtra();
+		$parser->code_class_prefix = 'language-';
+
 		$this->name      = $name;
 		$this->version   = $version;
-		$this->converter = new Converter( $this, new \ParsedownExtra() );
+		$this->converter = new Converter( $this, $parser );
 		$this->exporter  = new Exporter( $this );
 	}
 
@@ -149,7 +152,7 @@ class Plugin {
 		\add_filter( 'comment_text',        array( $this->converter, 'unquote' ), 6 );
 		\add_filter( 'get_comment_text',    array( $this->converter, 'convert' ), 6 );
 		\add_filter( 'get_comment_excerpt', array( $this->converter, 'convert' ), 6 );
-		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );		
+		\add_filter( 'get_comment_excerpt', 'wp_strip_all_tags',                  7 );
 	}
 
 	/**
